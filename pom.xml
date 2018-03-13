@@ -38,6 +38,7 @@
 		<qcloud.cos.version>4.4</qcloud.cos.version>
 		<cxf.project.version>3.2.1</cxf.project.version>
 		<swagger.version>2.2.2</swagger.version>
+		<maven-assembly-plugin.versoin>3.0.0</maven-assembly-plugin.versoin>
 
 
 
@@ -49,6 +50,33 @@
 		<remote-username>root</remote-username>
 		<remote-passwd>123456</remote-passwd>
 	</properties>
+	
+	<profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <env.devMode>dev</env.devMode>
+                <skipAssemblyDEV>true</skipAssemblyDEV>
+                <skipAssemblyUAT>false</skipAssemblyUAT>
+                <skipAssemblyPROD>false</skipAssemblyPROD>
+            </properties>
+        </profile>
+        <profile>
+            <id>uat</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <env.devMode>uat</env.devMode>
+                <skipAssemblyDEV>false</skipAssemblyDEV>
+                <skipAssemblyUAT>true</skipAssemblyUAT>
+                <skipAssemblyPROD>false</skipAssemblyPROD>
+            </properties>
+        </profile>
+    </profiles>
 
 	<dependencies>
 		<dependency>
@@ -299,6 +327,56 @@
 				</configuration>
 				<!-- 运行命令 mvn clean package docker:build 打包并生成docker镜像 -->
 			</plugin>
+			
+			<!--assembly test start-->
+            <!--this  include  the xml  assembly-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven-assembly-plugin.versoin}</version>
+                <executions>
+                    <execution>
+                        <id>make-assembly-dev</id>  <!--The identifier of this execution for labelling the goals during the build   标志-->
+                        <phase>package</phase>      <!--The build lifecycle phase to bind the goals in this execution to  指定其编译阶段-->
+                        <goals>
+                            <goal>single</goal>     <!--The goals to execute with the given configuration-->
+                        </goals>
+                        <configuration>
+                            <skipAssembly>${skipAssemblyDEV}</skipAssembly>   <!--profile声明参数调用-->
+                            <descriptors>
+                                <descriptor>src/main/resources/assembly/dev/assembly.xml</descriptor>   <!--加载指定的assembly配置文件-->
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>make-assembly-test</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <skipAssembly>${skipAssemblyTEST}</skipAssembly> 
+                            <descriptors>
+                                <descriptor>src/main/resources/assembly/test/assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>make-assembly-prod</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <skipAssembly>${skipAssemblyPROD}</skipAssembly>
+                            <descriptors>
+                                <descriptor>src/main/resources/assembly/prod/assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--assembly test end-->
 		</plugins>
 	</build>
 
