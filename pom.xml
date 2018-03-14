@@ -39,6 +39,7 @@
 		<cxf.project.version>3.2.1</cxf.project.version>
 		<swagger.version>2.2.2</swagger.version>
 		<maven-assembly-plugin.versoin>3.0.0</maven-assembly-plugin.versoin>
+		<twilio.version>7.0.0-rc-10</twilio.version>
 
 
 
@@ -266,6 +267,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+		    <groupId>com.twilio.sdk</groupId>
+		    <artifactId>twilio-java-sdk</artifactId>
+		    <version>${twilio.version}</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
