@@ -60,22 +60,34 @@
             <properties>
                 <env.devMode>dev</env.devMode>
                 <skipAssemblyDEV>true</skipAssemblyDEV>
-                <skipAssemblyUAT>false</skipAssemblyUAT>
+                <skipAssemblyTEST>false</skipAssemblyTEST>
                 <skipAssemblyPROD>false</skipAssemblyPROD>
             </properties>
         </profile>
         <profile>
-            <id>uat</id>
+            <id>test</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
-                <env.devMode>uat</env.devMode>
+                <env.devMode>test</env.devMode>
                 <skipAssemblyDEV>false</skipAssemblyDEV>
-                <skipAssemblyUAT>true</skipAssemblyUAT>
+                <skipAssemblyTEST>true</skipAssemblyTEST>
                 <skipAssemblyPROD>false</skipAssemblyPROD>
             </properties>
         </profile>
+		<profile>
+			<id>prod</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<env.devMode>test</env.devMode>
+				<skipAssemblyDEV>false</skipAssemblyDEV>
+				<skipAssemblyTEST>false</skipAssemblyTEST>
+				<skipAssemblyPROD>true</skipAssemblyPROD>
+			</properties>
+		</profile>
     </profiles>
 
 	<dependencies>
