@@ -2,6 +2,7 @@ package io.renren.common.utils;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,8 @@ public class RedisUtils {
     private RedisTemplate<String, Object> redisTemplate;
     @Autowired
     private ValueOperations<String, String> valueOperations;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 //    @Autowired
 //    private HashOperations<String, String, Object> hashOperations;
 //    @Autowired
@@ -65,12 +68,31 @@ public class RedisUtils {
         return value;
     }
 
+    public String getRandomKey() {
+        return redisTemplate.randomKey();
+    }
+    
     public String get(String key) {
         return get(key, NOT_EXPIRE);
     }
 
     public void delete(String key) {
         redisTemplate.delete(key);
+    }
+    
+    public String getRandomKeyforDatabase(int databases) {
+    	JedisConnectionFactory jedisConnectionFactory = (JedisConnectionFactory)redisTemplate.getConnectionFactory();
+        jedisConnectionFactory.setDatabase(databases);
+        stringRedisTemplate.setConnectionFactory(jedisConnectionFactory);
+        return stringRedisTemplate.randomKey();
+    }
+    
+    public String getKeyforDatabase(int databases,String key) {
+    	JedisConnectionFactory jedisConnectionFactory = (JedisConnectionFactory)redisTemplate.getConnectionFactory();
+        jedisConnectionFactory.setDatabase(databases);
+        stringRedisTemplate.setConnectionFactory(jedisConnectionFactory);
+        ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
+        return valueOperations.get(key);
     }
 
     /**

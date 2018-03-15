@@ -8,7 +8,7 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 import org.junit.Test;
 
-public class WebSeriviceTest {
+public class WebSeriviceTest extends SpringbootApplicationTests{
 
 	/**
      * 动态调用方式
