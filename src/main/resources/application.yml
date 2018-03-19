@@ -53,10 +53,10 @@ spring:
           bootstrap-servers: kafka.p1.sbg.queue.ovh.net:9093
     data:
       elasticsearch:
-        user: admin
-        password: aaa
-        cluster-name: elasticsearch
-        cluster-nodes: localhost
+        username: admin
+        password: YHMINZJDTLVMTGSK
+        cluster-name: bmix-eude-yp-9cf664e6-2d06-4ab9-aa34-1a7e74a70e79
+        cluster-nodes: sl-eu-fra-2-portal.4.dblayer.com:16019
         local: false
         repositories:
           enable: true
@@ -75,3 +75,17 @@ renren:
         # token有效时长，7天，单位秒
         expire: 604800
         header: token
+        
+        
+#公共 IP： 
+#159.8.140.19 
+#主机： 
+#159.122.209.37
+#root/786fa07a
+#
+#
+#公共 IP： 
+#159.8.140.8 
+#主机： 
+#159.122.233.173
+#root/8f228542
